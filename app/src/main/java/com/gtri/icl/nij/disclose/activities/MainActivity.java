@@ -1,18 +1,16 @@
 package com.gtri.icl.nij.disclose.activities;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
+import android.os.Bundle;
 import android.view.View;
+import android.view.Gravity;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.graphics.Typeface;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.gtri.icl.nij.disclose.R;
 
@@ -26,6 +24,8 @@ public class MainActivity extends AppCompatActivity
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
+
+        // center title text, yeah all this for that...
 
         TextView textView = new TextView(this);
         textView.setTextSize(22);
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setCustomView(textView, params);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
-        // App Log Tap Handler
+        // Social App Tap Handler
 
         ((LinearLayout)findViewById(R.id.appLogLinearLayout)).setOnClickListener(new View.OnClickListener()
         {
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // Media Tap Handler
+        // Photo/Video Tap Handler
 
         ((LinearLayout)findViewById(R.id.mediaLinearLayout)).setOnClickListener(new View.OnClickListener()
         {

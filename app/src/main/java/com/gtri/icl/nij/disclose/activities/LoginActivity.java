@@ -28,7 +28,7 @@ public class LoginActivity extends Activity
         {
             ImageView imageView = findViewById( R.id.imageView );
             AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
-            alphaAnimation.setDuration(1000);
+            alphaAnimation.setDuration(1500);
             alphaAnimation.setStartOffset(500);
             alphaAnimation.setFillAfter(true);
             imageView.startAnimation(alphaAnimation);
@@ -38,8 +38,8 @@ public class LoginActivity extends Activity
         {
             RelativeLayout relativeLayout = findViewById( R.id.relativeLayout );
             AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
-            alphaAnimation.setDuration(500);
-            alphaAnimation.setStartOffset(1500);
+            alphaAnimation.setDuration(1500);
+            alphaAnimation.setStartOffset(1000);
             alphaAnimation.setFillAfter(true);
             relativeLayout.startAnimation(alphaAnimation);
         }
@@ -77,7 +77,6 @@ public class LoginActivity extends Activity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
-                    finish();
                     return true;
                 }
                 else
