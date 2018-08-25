@@ -46,6 +46,8 @@ public class LoginActivity extends Activity
 
         // email entry handler
 
+        final EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
+
         ((EditText)findViewById(R.id.emailEditText)).setOnEditorActionListener( new EditText.OnEditorActionListener()
         {
             @Override
@@ -53,6 +55,7 @@ public class LoginActivity extends Activity
             {
                 if (actionId == EditorInfo.IME_ACTION_DONE)
                 {
+                    passwordEditText.requestFocus();
                     return true;
                 }
                 else
