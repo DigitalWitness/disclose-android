@@ -22,7 +22,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/appLogLinearLayout"
+            android:id="@+id/socialLogLinearLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
@@ -81,7 +81,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/messagesLinearLayout"
+            android:id="@+id/messageLogLinearLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
@@ -107,7 +107,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/mediaLinearLayout"
+            android:id="@+id/mediaLogLinearLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="3dp"

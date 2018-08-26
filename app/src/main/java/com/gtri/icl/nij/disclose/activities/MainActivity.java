@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Gravity;
 import android.widget.Button;
+import android.content.Intent;
 import android.widget.TextView;
 import android.graphics.Typeface;
 import android.view.WindowManager;
@@ -16,6 +17,12 @@ import com.gtri.icl.nij.disclose.R;
 
 public class MainActivity extends AppCompatActivity
 {
+    private Button submitButton;
+    private LinearLayout mediaLogLinearLayout;
+    private LinearLayout socialLogLinearLayout;
+    private LinearLayout deviceLogLinearLayout;
+    private LinearLayout messageLogLinearLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -43,55 +50,81 @@ public class MainActivity extends AppCompatActivity
 
         // Social App Tap Handler
 
-        ((LinearLayout)findViewById(R.id.appLogLinearLayout)).setOnClickListener(new View.OnClickListener()
+        socialLogLinearLayout = (LinearLayout)findViewById(R.id.socialLogLinearLayout);
+
+        socialLogLinearLayout.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 v.setEnabled( false );
-                Log.d( "xxx", "App Log Tapped" );
+
+                Intent intent = new Intent(MainActivity.this, SocialLogActivity.class);
+                startActivity(intent);
+
+                overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
             }
         });
 
         // Device Log Tap Handler
 
-        ((LinearLayout)findViewById(R.id.deviceLogLinearLayout)).setOnClickListener(new View.OnClickListener()
+        deviceLogLinearLayout = (LinearLayout)findViewById(R.id.deviceLogLinearLayout);
+
+        deviceLogLinearLayout.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 v.setEnabled( false );
-                Log.d( "xxx", "Device Log Tapped" );
+
+                Intent intent = new Intent(MainActivity.this, DeviceLogActivity.class);
+                startActivity(intent);
+
+                overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
             }
         });
 
         // Message Tap Handler
 
-        ((LinearLayout)findViewById(R.id.messagesLinearLayout)).setOnClickListener(new View.OnClickListener()
+        messageLogLinearLayout = (LinearLayout)findViewById(R.id.messageLogLinearLayout);
+
+        messageLogLinearLayout.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 v.setEnabled( false );
-                Log.d( "xxx", "Messages Tapped" );
+
+                Intent intent = new Intent(MainActivity.this, MessageLogActivity.class);
+                startActivity(intent);
+
+                overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
             }
         });
 
         // Photo/Video Tap Handler
 
-        ((LinearLayout)findViewById(R.id.mediaLinearLayout)).setOnClickListener(new View.OnClickListener()
+        mediaLogLinearLayout = (LinearLayout)findViewById(R.id.mediaLogLinearLayout);
+
+        mediaLogLinearLayout.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 v.setEnabled( false );
-                Log.d( "xxx", "Media Tapped" );
+
+                Intent intent = new Intent(MainActivity.this, MediaLogActivity.class);
+                startActivity(intent);
+
+                overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
             }
         });
 
         // submit button handler
 
-        ((Button)findViewById(R.id.submitButton)).setOnClickListener(new View.OnClickListener()
+        submitButton = (Button)findViewById(R.id.submitButton);
+
+        submitButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -100,5 +133,17 @@ public class MainActivity extends AppCompatActivity
                 Log.d( "xxx", "Submit Button Tapped" );
             }
         });
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        submitButton.setEnabled(true);
+        mediaLogLinearLayout.setEnabled(true);
+        socialLogLinearLayout.setEnabled(true);
+        deviceLogLinearLayout.setEnabled(true);
+        messageLogLinearLayout.setEnabled(true);
     }
 }
