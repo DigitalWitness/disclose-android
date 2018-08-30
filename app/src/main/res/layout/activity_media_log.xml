@@ -3,12 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF2F2F2">
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:background="@drawable/header_child"/>
+
 
     <RelativeLayout
         android:id="@+id/noMediaRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="145dp"
         android:layout_marginBottom="85dp">
 
         <ImageView
@@ -45,15 +52,22 @@
         android:id="@+id/recyclerViewLinearLayout"
         android:visibility="gone"
         android:orientation="vertical"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="145dp"
         android:layout_marginBottom="85dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#ffe0e0e0"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <Button
