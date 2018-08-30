@@ -23,9 +23,9 @@ import java.util.ArrayList;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>
 {
     Activity context;
-    ArrayList<Uri> listItems;
+    ArrayList<File> listItems;
 
-    public RecyclerViewAdapter( Activity context, ArrayList<Uri> listItems )
+    public RecyclerViewAdapter( Activity context, ArrayList<File> listItems )
     {
         this.context = context;
         this.listItems = listItems;
@@ -62,26 +62,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(RecyclerViewHolder recyclerViewHolder, int position )
     {
-        Uri uri = listItems.get(position);
+        File file = listItems.get(position);
 
-        Log.d( "xxx", uri.getPath());
-        Log.d( "xxx", uri.toString());
-
-        String path = uri.getPath();
-
-        Bitmap bitmap = ThumbnailUtils.createVideoThumbnail( path, MediaStore.Video.Thumbnails.MICRO_KIND );
+        Bitmap bitmap = ThumbnailUtils.createVideoThumbnail( file.getAbsolutePath(), MediaStore.Video.Thumbnails.MICRO_KIND );
 
         if (bitmap != null)
         {
-            Log.d( "xxx", "bitmap ! null" );
             recyclerViewHolder.imageView.setImageBitmap( bitmap );
         }
         else
         {
-            recyclerViewHolder.imageView.setImageURI( uri );
+            recyclerViewHolder.imageView.setImageURI( Uri.fromFile(file));
         }
 
-        recyclerViewHolder.titleTextView.setText( uri.toString());
+        recyclerViewHolder.titleTextView.setText( file.getAbsolutePath());
     }
 
     @Override

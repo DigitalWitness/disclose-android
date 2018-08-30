@@ -1,5 +1,13 @@
 package com.gtri.icl.nij.disclose.activities;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
@@ -13,15 +21,19 @@ import android.widget.LinearLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
+import com.gtri.icl.nij.disclose.Models.EvidenceManager;
 import com.gtri.icl.nij.disclose.R;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
 {
     private Button submitButton;
+
     private LinearLayout mediaLogLinearLayout;
     private LinearLayout socialLogLinearLayout;
     private LinearLayout deviceLogLinearLayout;
     private LinearLayout messageLogLinearLayout;
+
+    private TextView mediaTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,21 +44,11 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
-        // center title text, yeah all this for that...
+        setCustomTitle( "DISCLOSE" );
 
-        TextView textView = new TextView(this);
-        textView.setTextSize(22);
-        textView.setText("DISCLOSE");
-        textView.setTextColor( 0xffffffff );
-        textView.setGravity(Gravity.CENTER);
-        textView.setTypeface(null, Typeface.BOLD);
+        requestAllPermissions();
 
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER );
-
-        getSupportActionBar().setCustomView(textView, params);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        mediaTextView = (TextView)findViewById(R.id.mediaTextView);
 
         // Social App Tap Handler
 
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity
                 v.setEnabled( false );
 
                 Intent intent = new Intent(MainActivity.this, MediaLogActivity.class);
-                startActivity(intent);
+                startActivity( intent );
 
                 overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
             }
@@ -135,6 +137,69 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    public static final int REQUEST_READ_PHONE_STATE = 10;
+    private static final int REQUEST_READ_EXTERNAL_STORAGE = 4040;
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    private static final String[] permissions = new String[] {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_SMS};
+
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE=1;
+
+
+    private void requestAllPermissions()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
+            }
+
+            if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(permissions, PERMISSIONS_REQUEST_READ_CONTACTS);
+            }
+
+            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+            }
+
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
+            }
+        }
+    }
+
+    private static void requestWritePermission(final Context context)
+    {
+        if(ActivityCompat.shouldShowRequestPermissionRationale((Activity)context,Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        {
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // For example if the user has previously denied the permission.
+
+            new AlertDialog.Builder(context)
+                    .setMessage("Mother may I")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            ActivityCompat.requestPermissions((Activity) context,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    REQUEST_WRITE_EXTERNAL_STORAGE);
+                        }
+                    }).show();
+
+        }
+        else
+            {
+            // permission has not been granted yet. Request it directly.
+            ActivityCompat.requestPermissions((Activity)context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
     @Override
     protected void onResume()
     {
@@ -145,5 +210,7 @@ public class MainActivity extends AppCompatActivity
         socialLogLinearLayout.setEnabled(true);
         deviceLogLinearLayout.setEnabled(true);
         messageLogLinearLayout.setEnabled(true);
+
+        mediaTextView.setText( "Photo/Video (" + EvidenceManager.sharedInstance().mediarRecords.size() + ")" );
     }
 }

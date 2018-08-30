@@ -55,7 +55,7 @@
             android:layout_marginRight="10dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:maxLines="1"
+            android:maxLines="3"
             android:text="Title"
             android:textColor="@color/black"
             android:textSize="18sp"/>

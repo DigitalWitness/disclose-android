@@ -1,32 +1,46 @@
 package com.gtri.icl.nij.disclose.activities;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
-import android.provider.MediaStore;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.gtri.icl.nij.disclose.R;
+import com.gtri.icl.nij.disclose.Models.MediaRecord;
 import com.gtri.icl.nij.disclose.RecyclerViewAdapter;
+import com.gtri.icl.nij.disclose.Models.EvidenceManager;
 import com.gtri.icl.nij.disclose.RecyclerItemTouchHelper;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener
 {
     public static final int REQUEST_PICK_IMAGE = 1;
 
-    private ArrayList<Uri> listItems;
+    private ArrayList<File> listItems;
     private RecyclerView recyclerView;
     private RelativeLayout noMediaRelativeLayout;
     private LinearLayout recyclerViewLinearLayout;
@@ -43,7 +57,21 @@ public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchH
 
         setCustomTitle( "Media Log" );
 
+        noMediaRelativeLayout = (RelativeLayout)findViewById(R.id.noMediaRelativeLayout);
+        recyclerViewLinearLayout = (LinearLayout)findViewById(R.id.recyclerViewLinearLayout);
+
         listItems = new ArrayList<>();
+
+        for (MediaRecord mediaRecord : EvidenceManager.sharedInstance().mediarRecords)
+        {
+            listItems.add( mediaRecord.file );
+        }
+
+        if (listItems.size() > 0)
+        {
+            noMediaRelativeLayout.setVisibility(View.GONE);
+            recyclerViewLinearLayout.setVisibility(View.VISIBLE);
+        }
 
         recyclerViewAdapter = new RecyclerViewAdapter( this, listItems );
 
@@ -56,9 +84,6 @@ public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchH
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
-
-        noMediaRelativeLayout = (RelativeLayout)findViewById(R.id.noMediaRelativeLayout);
-        recyclerViewLinearLayout = (LinearLayout)findViewById(R.id.recyclerViewLinearLayout);
 
         Button addButton = (Button)findViewById(R.id.addButton);
 
@@ -90,7 +115,11 @@ public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchH
 
             if (uri != null)
             {
-                listItems.add( uri );
+                File file = copyFile( uri );
+
+                listItems.add( file );
+
+                EvidenceManager.sharedInstance().mediarRecords.add( new MediaRecord( file ));
 
                 noMediaRelativeLayout.setVisibility(View.GONE);
                 recyclerViewLinearLayout.setVisibility(View.VISIBLE);
@@ -99,11 +128,9 @@ public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchH
 
                 if(mimeType.startsWith("image"))
                 {
-                    Log.d( "xxx", "added an image" );
                 }
                 else if (mimeType.startsWith("video"))
                 {
-                    Log.d( "xxx", "added a video" );
                 }
                 else
                 {
@@ -112,11 +139,73 @@ public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchH
         }
     }
 
+    public File copyFile(Uri uri)
+    {
+        File dstFile = null;
+
+        try
+        {
+            File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            downloadsDir.mkdirs();
+
+            File discloseDir = new File( downloadsDir, "Disclose/" );
+            discloseDir.mkdirs();
+
+            File srcFile = new File( uri.getPath());
+
+            dstFile = new File( discloseDir,  srcFile.getName() + ".jpg");
+
+            InputStream in = getContentResolver().openInputStream(uri);
+
+            try
+            {
+                FileOutputStream out = new FileOutputStream(dstFile);
+
+                try
+                {
+                    byte[] buf = new byte[1024];
+                    int len;
+
+                    while ((len = in.read(buf)) > 0)
+                    {
+                        out.write(buf, 0, len);
+                    }
+                }
+                catch( Exception e )
+                {
+                    Log.d( "xxx", e.getLocalizedMessage());
+                }
+                finally
+                {
+                    out.close();
+                }
+            }
+            catch( Exception e )
+            {
+                Log.d( "xxx", e.getLocalizedMessage());
+            }
+            finally
+            {
+                in.close();
+            }
+        }
+        catch( Exception e )
+        {
+            Log.d( "xxx", e.getLocalizedMessage());
+        }
+
+        return dstFile;
+    }
+
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position)
     {
         if (viewHolder instanceof RecyclerViewAdapter.RecyclerViewHolder)
         {
+            MediaRecord mediaRecord = EvidenceManager.sharedInstance().mediarRecords.get(position);
+
+            EvidenceManager.sharedInstance().mediarRecords.remove( mediaRecord );
+
             recyclerViewAdapter.removeItem(viewHolder.getAdapterPosition());
 
             if (listItems.size() == 0)
