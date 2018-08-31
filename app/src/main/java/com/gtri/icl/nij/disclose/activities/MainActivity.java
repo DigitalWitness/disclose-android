@@ -2,20 +2,14 @@ package com.gtri.icl.nij.disclose.activities;
 
 import android.Manifest;
 import android.os.Build;
-import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
-import android.app.Activity;
 import android.widget.Button;
 import android.content.Intent;
-import android.content.Context;
 import android.widget.TextView;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.support.v7.app.AlertDialog;
-import android.support.v4.app.ActivityCompat;
 
 import com.gtri.icl.nij.disclose.R;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
@@ -140,13 +134,11 @@ public class MainActivity extends BaseActivity
         });
     }
 
-    public static final int REQUEST_READ_PHONE_STATE = 10;
+    private static final int REQUEST_READ_PHONE_STATE = 10;
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE=1;
     private static final int REQUEST_READ_EXTERNAL_STORAGE = 4040;
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     private static final String[] permissions = new String[] {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_SMS};
-
-    private static final int REQUEST_WRITE_EXTERNAL_STORAGE=1;
-
 
     private void requestAllPermissions()
     {
@@ -171,35 +163,6 @@ public class MainActivity extends BaseActivity
             {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
             }
-        }
-    }
-
-    private static void requestWritePermission(final Context context)
-    {
-        if(ActivityCompat.shouldShowRequestPermissionRationale((Activity)context,Manifest.permission.WRITE_EXTERNAL_STORAGE))
-        {
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For example if the user has previously denied the permission.
-
-            new AlertDialog.Builder(context)
-                    .setMessage("Mother may I")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            ActivityCompat.requestPermissions((Activity) context,
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                    REQUEST_WRITE_EXTERNAL_STORAGE);
-                        }
-                    }).show();
-
-        }
-        else
-            {
-            // permission has not been granted yet. Request it directly.
-            ActivityCompat.requestPermissions((Activity)context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
         }
     }
 
