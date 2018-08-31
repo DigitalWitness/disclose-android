@@ -32,7 +32,7 @@
             android:layout_height="30dp"
             android:layout_centerInParent="true"
             android:gravity="center_horizontal"
-            android:text="Message Log"
+            android:text="App Log"
             android:textColor="#ff808080"
             android:textSize="20sp"/>
 
@@ -43,7 +43,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="20dp"
             android:layout_below="@+id/mediaTextView"
-            android:text="No message log evidence has been imported.  Please import message log evidence by tapping the button below."
+            android:text="No app log evidence has been imported.  Please import app log evidence by tapping the button below."
             android:textColor="#ff808080"
             android:textSize="17sp"/>
     </RelativeLayout>

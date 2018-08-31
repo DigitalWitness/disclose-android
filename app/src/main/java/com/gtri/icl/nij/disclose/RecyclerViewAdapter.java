@@ -1,34 +1,34 @@
 package com.gtri.icl.nij.disclose;
 
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.app.Activity;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.graphics.Bitmap;
 import android.widget.TextView;
+import android.widget.ImageView;
+import android.provider.MediaStore;
+import android.widget.LinearLayout;
 import android.view.LayoutInflater;
+import android.media.ThumbnailUtils;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.RecyclerView;
 
+import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
+import com.gtri.icl.nij.disclose.Models.EvidenceRecord;
+
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>
 {
     Activity context;
-    ArrayList<File> listItems;
+    ArrayList<EvidenceRecord> evidenceRecords;
 
-    public RecyclerViewAdapter( Activity context, ArrayList<File> listItems )
+    public RecyclerViewAdapter( Activity context, ArrayList<EvidenceRecord> evidenceRecords )
     {
         this.context = context;
-        this.listItems = listItems;
+        this.evidenceRecords = evidenceRecords;
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder
@@ -62,31 +62,36 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(RecyclerViewHolder recyclerViewHolder, int position )
     {
-        File file = listItems.get(position);
+        EvidenceRecord evidenceRecord = evidenceRecords.get(position);
 
-        Bitmap bitmap = ThumbnailUtils.createVideoThumbnail( file.getAbsolutePath(), MediaStore.Video.Thumbnails.MICRO_KIND );
-
-        if (bitmap != null)
+        if (evidenceRecord.evidenceType == EvidenceRecord.EvidenceType.MEDIA_LOG)
         {
-            recyclerViewHolder.imageView.setImageBitmap( bitmap );
-        }
-        else
-        {
-            recyclerViewHolder.imageView.setImageURI( Uri.fromFile(file));
-        }
+            File file = ((MediaLogRecord)evidenceRecord).file;
 
-        recyclerViewHolder.titleTextView.setText( file.getAbsolutePath());
+            Bitmap bitmap = ThumbnailUtils.createVideoThumbnail( file.getAbsolutePath(), MediaStore.Video.Thumbnails.MICRO_KIND );
+
+            if (bitmap != null)
+            {
+                recyclerViewHolder.imageView.setImageBitmap( bitmap );
+            }
+            else
+            {
+                recyclerViewHolder.imageView.setImageURI( Uri.fromFile(file));
+            }
+
+            recyclerViewHolder.titleTextView.setText( file.getAbsolutePath());
+        }
     }
 
     @Override
     public int getItemCount()
     {
-        return listItems.size();
+        return evidenceRecords.size();
     }
 
     public void removeItem(int position)
     {
-        listItems.remove(position);
+        evidenceRecords.remove(position);
 
         notifyItemRemoved(position);
     }

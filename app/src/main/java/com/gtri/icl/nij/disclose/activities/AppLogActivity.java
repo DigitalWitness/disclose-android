@@ -15,15 +15,15 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.gtri.icl.nij.disclose.R;
+import com.gtri.icl.nij.disclose.Models.AppLogRecord;
 import com.gtri.icl.nij.disclose.RecyclerViewAdapter;
 import com.gtri.icl.nij.disclose.Managers.FileManager;
-import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
 import com.gtri.icl.nij.disclose.RecyclerItemTouchHelper;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
 
 import java.io.File;
 
-public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener
+public class AppLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener
 {
     public static final int REQUEST_PICK_IMAGE = 1;
 
@@ -39,20 +39,20 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_device_log);
+        setContentView(R.layout.activity_app_log);
 
-        setCustomTitle( "Device Log" );
+        setCustomTitle( "App Log" );
 
         noDataRelativeLayout = (RelativeLayout)findViewById(R.id.noDataRelativeLayout);
         recyclerViewLinearLayout = (LinearLayout)findViewById(R.id.recyclerViewLinearLayout);
 
-        if (EvidenceManager.sharedInstance().deviceLogRecords.size() > 0)
+        if (EvidenceManager.sharedInstance().appLogRecords.size() > 0)
         {
             noDataRelativeLayout.setVisibility(View.GONE);
             recyclerViewLinearLayout.setVisibility(View.VISIBLE);
         }
 
-        recyclerViewAdapter = new RecyclerViewAdapter( this, EvidenceManager.sharedInstance().deviceLogRecords );
+        recyclerViewAdapter = new RecyclerViewAdapter( this, EvidenceManager.sharedInstance().appLogRecords );
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
@@ -105,7 +105,7 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
 
                 File file = FileManager.copyFile( uri, extension, this );
 
-                EvidenceManager.sharedInstance().deviceLogRecords.add( new DeviceLogRecord( file ));
+                EvidenceManager.sharedInstance().appLogRecords.add( new AppLogRecord( file ));
 
                 noDataRelativeLayout.setVisibility(View.GONE);
                 recyclerViewLinearLayout.setVisibility(View.VISIBLE);
@@ -120,7 +120,7 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
         {
             recyclerViewAdapter.removeItem( viewHolder.getAdapterPosition());
 
-            if (EvidenceManager.sharedInstance().deviceLogRecords.size() == 0)
+            if (EvidenceManager.sharedInstance().appLogRecords.size() == 0)
             {
                 noDataRelativeLayout.setVisibility( View.VISIBLE );
                 recyclerViewLinearLayout.setVisibility( View.GONE );

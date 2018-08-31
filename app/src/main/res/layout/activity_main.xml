@@ -49,7 +49,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="Social Apps\n(0)"/>
+                android:text="App Logs\n(0)"/>
         </LinearLayout>
 
         <LinearLayout
@@ -103,12 +103,12 @@
                 app:srcCompat="@mipmap/ic_messages"/>
 
             <TextView
-                android:id="@+id/messagesTextView"
+                android:id="@+id/messageLogTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="Messages\n(0)"/>
+                android:text="Message Logs\n(0)"/>
         </LinearLayout>
 
         <LinearLayout
@@ -129,12 +129,12 @@
                 app:srcCompat="@mipmap/ic_media"/>
 
             <TextView
-                android:id="@+id/mediaTextView"
+                android:id="@+id/mediaLogTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="Photo/Video\n(0)"/>
+                android:text="Media Logs\n(0)"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -146,7 +146,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/button_rounded_corners"
-        android:text="Submit"
+        android:text="Submit Evidence"
         android:textSize="18sp"/>
 
 </LinearLayout>

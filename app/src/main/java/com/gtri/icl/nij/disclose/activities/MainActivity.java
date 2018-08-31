@@ -1,39 +1,38 @@
 package com.gtri.icl.nij.disclose.activities;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Gravity;
+import android.app.Activity;
 import android.widget.Button;
 import android.content.Intent;
+import android.content.Context;
 import android.widget.TextView;
-import android.graphics.Typeface;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.support.v7.app.AlertDialog;
+import android.support.v4.app.ActivityCompat;
 
-import com.gtri.icl.nij.disclose.Models.EvidenceManager;
 import com.gtri.icl.nij.disclose.R;
+import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
 
 public class MainActivity extends BaseActivity
 {
     private Button submitButton;
 
+    private LinearLayout appLogLinearLayout;
     private LinearLayout mediaLogLinearLayout;
-    private LinearLayout socialLogLinearLayout;
     private LinearLayout deviceLogLinearLayout;
     private LinearLayout messageLogLinearLayout;
 
-    private TextView mediaTextView;
+    private TextView appLogTextView;
+    private TextView mediaLogTextView;
+    private TextView deviceLogTextView;
+    private TextView messageLogTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,20 +47,23 @@ public class MainActivity extends BaseActivity
 
         requestAllPermissions();
 
-        mediaTextView = (TextView)findViewById(R.id.mediaTextView);
+        appLogTextView = (TextView)findViewById(R.id.appLogTextView);
+        mediaLogTextView = (TextView)findViewById(R.id.mediaLogTextView);
+        deviceLogTextView = (TextView)findViewById(R.id.deviceLogTextView);
+        messageLogTextView = (TextView)findViewById(R.id.messageLogTextView);
 
         // Social App Tap Handler
 
-        socialLogLinearLayout = (LinearLayout)findViewById(R.id.socialLogLinearLayout);
+        appLogLinearLayout = (LinearLayout)findViewById(R.id.socialLogLinearLayout);
 
-        socialLogLinearLayout.setOnClickListener(new View.OnClickListener()
+        appLogLinearLayout.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 v.setEnabled( false );
 
-                Intent intent = new Intent(MainActivity.this, SocialLogActivity.class);
+                Intent intent = new Intent(MainActivity.this, AppLogActivity.class);
                 startActivity(intent);
 
                 overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
@@ -126,13 +128,14 @@ public class MainActivity extends BaseActivity
 
         submitButton = (Button)findViewById(R.id.submitButton);
 
+        submitButton.setEnabled( false );
+
         submitButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 v.setEnabled( false );
-                Log.d( "xxx", "Submit Button Tapped" );
             }
         });
     }
@@ -205,12 +208,21 @@ public class MainActivity extends BaseActivity
     {
         super.onResume();
 
-        submitButton.setEnabled(true);
+        appLogLinearLayout.setEnabled(true);
         mediaLogLinearLayout.setEnabled(true);
-        socialLogLinearLayout.setEnabled(true);
         deviceLogLinearLayout.setEnabled(true);
         messageLogLinearLayout.setEnabled(true);
 
-        mediaTextView.setText( "Photo/Video (" + EvidenceManager.sharedInstance().mediarRecords.size() + ")" );
+        appLogTextView.setText( "App Logs\n (" + EvidenceManager.sharedInstance().appLogRecords.size() + ")" );
+        mediaLogTextView.setText( "Media Logs\n (" + EvidenceManager.sharedInstance().mediaLogRecords.size() + ")" );
+        deviceLogTextView.setText( "Device Logs\n (" + EvidenceManager.sharedInstance().deviceLogRecords.size() + ")" );
+        messageLogTextView.setText( "Message Logs\n (" + EvidenceManager.sharedInstance().messageLogRecords.size() + ")" );
+
+        int count = EvidenceManager.sharedInstance().appLogRecords.size()
+                + EvidenceManager.sharedInstance().mediaLogRecords.size()
+                + EvidenceManager.sharedInstance().deviceLogRecords.size()
+                + EvidenceManager.sharedInstance().messageLogRecords.size();
+
+        submitButton.setEnabled( count > 0 );
     }
 }
