@@ -1,7 +1,9 @@
 package com.gtri.icl.nij.disclose.activities;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
@@ -20,6 +22,7 @@ import com.gtri.icl.nij.disclose.Managers.FileManager;
 import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
 import com.gtri.icl.nij.disclose.RecyclerItemTouchHelper;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
+import com.gtri.icl.nij.disclose.Tasks.DeviceLogTask;
 
 import java.io.File;
 
@@ -27,6 +30,7 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
 {
     public static final int REQUEST_PICK_IMAGE = 1;
 
+    private Button addButton;
     private RecyclerView recyclerView;
     private RelativeLayout noDataRelativeLayout;
     private LinearLayout recyclerViewLinearLayout;
@@ -43,11 +47,13 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
 
         setCustomTitle( "Device Log" );
 
+        addButton = (Button)findViewById(R.id.addButton);
         noDataRelativeLayout = (RelativeLayout)findViewById(R.id.noDataRelativeLayout);
         recyclerViewLinearLayout = (LinearLayout)findViewById(R.id.recyclerViewLinearLayout);
 
         if (EvidenceManager.sharedInstance().deviceLogRecords.size() > 0)
         {
+            addButton.setVisibility(View.GONE);
             noDataRelativeLayout.setVisibility(View.GONE);
             recyclerViewLinearLayout.setVisibility(View.VISIBLE);
         }
@@ -64,53 +70,35 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
-        Button addButton = (Button)findViewById(R.id.addButton);
-
         addButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/*", "video/*"});
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
-                intent.setType("*/*");
+                addButton.setVisibility(View.GONE);
 
-                startActivityForResult(Intent.createChooser(intent, "Select App"), REQUEST_PICK_IMAGE);
+                DeviceLogTask deviceLogTask = new DeviceLogTask( DeviceLogActivity.this );
+
+                deviceLogTask.setCompletionHandler( new DeviceLogTask.CompletionHandler()
+                {
+                    @Override
+                    public void didComplete(DeviceLogRecord deviceLogRecord)
+                    {
+                        if (deviceLogRecord != null)
+                        {
+                            noDataRelativeLayout.setVisibility(View.GONE);
+                            recyclerViewLinearLayout.setVisibility(View.VISIBLE);
+
+                            EvidenceManager.sharedInstance().deviceLogRecords.add( deviceLogRecord );
+                        }
+                        else
+                        {
+                            addButton.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }).doExecute();
             }
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (resultCode == RESULT_OK && requestCode == REQUEST_PICK_IMAGE)
-        {
-            Uri uri = data.getData();
-
-            if (uri != null)
-            {
-                String mimeType = getContentResolver().getType(uri);
-
-                String extension = "";
-
-                if (mimeType.startsWith("image"))
-                {
-                    extension = ".jpg";
-                }
-                else if (mimeType.startsWith("video"))
-                {
-                    extension = ".mp4";
-                }
-
-                File file = FileManager.copyFile( uri, extension, this );
-
-                EvidenceManager.sharedInstance().deviceLogRecords.add( new DeviceLogRecord( file ));
-
-                noDataRelativeLayout.setVisibility(View.GONE);
-                recyclerViewLinearLayout.setVisibility(View.VISIBLE);
-            }
-        }
     }
 
     @Override
@@ -122,6 +110,7 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
 
             if (EvidenceManager.sharedInstance().deviceLogRecords.size() == 0)
             {
+                addButton.setVisibility(View.VISIBLE);
                 noDataRelativeLayout.setVisibility( View.VISIBLE );
                 recyclerViewLinearLayout.setVisibility( View.GONE );
             }
