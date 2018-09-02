@@ -1,20 +1,27 @@
 package com.gtri.icl.nij.disclose.activities;
 
 import android.Manifest;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.gtri.icl.nij.disclose.R;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
 
-public class MainActivity extends BaseActivity
+public class MainActivity extends AppCompatActivity
 {
     private Button submitButton;
 
@@ -37,7 +44,14 @@ public class MainActivity extends BaseActivity
 
         setContentView(R.layout.activity_main);
 
-        setCustomTitle( "DISCLOSE" );
+        TextView textView = new TextView(this);
+
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER );
+
+        getSupportActionBar().setCustomView(textView, params);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
 
         requestAllPermissions();
 
@@ -187,5 +201,35 @@ public class MainActivity extends BaseActivity
                 + EvidenceManager.sharedInstance().messageLogRecords.size();
 
         submitButton.setEnabled( count > 0 );
+    }
+
+    @Override public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
+
+    @Override public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout)
+        {
+            SharedPreferences sharedPreferences = getSharedPreferences("default", 0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            editor.putString( "email-address", "" );
+            editor.putString( "password", "" );
+
+            editor.commit();
+
+            finish();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

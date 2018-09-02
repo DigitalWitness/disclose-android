@@ -2,6 +2,7 @@ package com.gtri.icl.nij.disclose.activities;
 
 import android.view.View;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 import android.app.Activity;
 import android.view.KeyEvent;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.content.SharedPreferences;
 import android.view.inputmethod.EditorInfo;
 import android.view.animation.AlphaAnimation;
 
@@ -23,6 +25,18 @@ public class LoginActivity extends Activity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("default", 0);
+
+        if (sharedPreferences.getString( "password", "" ).length() > 0)
+        {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+
+            finish();
+
+            return;
+        }
 
         // animate out the spash screen
         {
@@ -74,9 +88,21 @@ public class LoginActivity extends Activity
             {
                 if (actionId == EditorInfo.IME_ACTION_DONE)
                 {
+                    SharedPreferences sharedPreferences = getSharedPreferences("default", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    editor.putString( "email-address", "russell.mitchell@gtri.gatech.edu" );
+                    editor.putString( "password", v.getText().toString() );
+
+                    editor.commit();
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+
                     overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
+
+                    finish();
+
                     return true;
                 }
                 else

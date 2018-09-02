@@ -41,7 +41,7 @@ public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchH
 
         setContentView(R.layout.activity_media_log);
 
-        setCustomTitle( "Media Log" );
+        setCustomTitle("");
 
         noDataRelativeLayout = (RelativeLayout)findViewById(R.id.noDataRelativeLayout);
         recyclerViewLinearLayout = (LinearLayout)findViewById(R.id.recyclerViewLinearLayout);

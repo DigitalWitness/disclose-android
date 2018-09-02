@@ -43,9 +43,9 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_device_log);
+        setCustomTitle("");
 
-        setCustomTitle( "Device Log" );
+        setContentView(R.layout.activity_device_log);
 
         addButton = (Button)findViewById(R.id.addButton);
         noDataRelativeLayout = (RelativeLayout)findViewById(R.id.noDataRelativeLayout);

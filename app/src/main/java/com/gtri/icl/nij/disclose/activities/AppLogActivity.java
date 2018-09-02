@@ -41,7 +41,7 @@ public class AppLogActivity extends BaseActivity implements RecyclerItemTouchHel
 
         setContentView(R.layout.activity_app_log);
 
-        setCustomTitle( "App Log" );
+        setCustomTitle("");
 
         noDataRelativeLayout = (RelativeLayout)findViewById(R.id.noDataRelativeLayout);
         recyclerViewLinearLayout = (LinearLayout)findViewById(R.id.recyclerViewLinearLayout);

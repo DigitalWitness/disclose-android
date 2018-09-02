@@ -41,7 +41,7 @@ public class MessageLogActivity extends BaseActivity implements RecyclerItemTouc
 
         setContentView(R.layout.activity_device_log);
 
-        setCustomTitle( "Device Log" );
+        setCustomTitle("");
 
         noDataRelativeLayout = (RelativeLayout)findViewById(R.id.noDataRelativeLayout);
         recyclerViewLinearLayout = (LinearLayout)findViewById(R.id.recyclerViewLinearLayout);
