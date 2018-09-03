@@ -1,15 +1,13 @@
 package com.gtri.icl.nij.disclose.activities;
 
+import android.os.Bundle;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.WindowManager;
+import android.provider.MediaStore;
+import android.media.ThumbnailUtils;
+import android.graphics.BitmapFactory;
 
 import com.gtri.icl.nij.disclose.R;
 

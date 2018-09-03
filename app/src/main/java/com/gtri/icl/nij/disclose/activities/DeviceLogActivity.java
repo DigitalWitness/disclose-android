@@ -1,9 +1,6 @@
 package com.gtri.icl.nij.disclose.activities;
 
-import android.app.ProgressDialog;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
@@ -16,16 +13,12 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
 import com.gtri.icl.nij.disclose.R;
+import com.gtri.icl.nij.disclose.Tasks.DeviceLogTask;
 import com.gtri.icl.nij.disclose.RecyclerViewAdapter;
-import com.gtri.icl.nij.disclose.Managers.FileManager;
 import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
 import com.gtri.icl.nij.disclose.RecyclerItemTouchHelper;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
-import com.gtri.icl.nij.disclose.Tasks.DeviceLogTask;
-
-import java.io.File;
 
 public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewAdapter.RecyclerViewAdapterDelegate
 {

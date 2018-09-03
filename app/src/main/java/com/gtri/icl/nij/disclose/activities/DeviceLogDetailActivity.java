@@ -1,17 +1,17 @@
 package com.gtri.icl.nij.disclose.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.view.WindowManager;
+import android.content.Intent;
 import android.widget.TextView;
+import android.view.WindowManager;
+import android.text.method.ScrollingMovementMethod;
 
 import com.gtri.icl.nij.disclose.R;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 public class DeviceLogDetailActivity extends BaseActivity
@@ -33,7 +33,7 @@ public class DeviceLogDetailActivity extends BaseActivity
         Intent intent = getIntent();
 
         String pathName = intent.getStringExtra( "PathName" );
-        
+
         try
         {
             File file = new File(pathName);

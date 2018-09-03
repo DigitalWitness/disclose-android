@@ -1,8 +1,6 @@
 package com.gtri.icl.nij.disclose;
 
-import android.media.Image;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.app.Activity;
 import android.view.ViewGroup;
@@ -20,10 +18,9 @@ import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
 import com.gtri.icl.nij.disclose.Models.EvidenceRecord;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Calendar;
+import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>
 {

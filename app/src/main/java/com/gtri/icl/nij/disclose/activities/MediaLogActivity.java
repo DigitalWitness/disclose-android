@@ -1,11 +1,7 @@
 package com.gtri.icl.nij.disclose.activities;
 
-import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
@@ -18,7 +14,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.gtri.icl.nij.disclose.Models.EvidenceRecord;
 import com.gtri.icl.nij.disclose.R;
 import com.gtri.icl.nij.disclose.RecyclerViewAdapter;
 import com.gtri.icl.nij.disclose.Managers.FileManager;
