@@ -16,6 +16,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
 import com.gtri.icl.nij.disclose.R;
 import com.gtri.icl.nij.disclose.RecyclerViewAdapter;
 import com.gtri.icl.nij.disclose.Managers.FileManager;
@@ -26,7 +27,7 @@ import com.gtri.icl.nij.disclose.Tasks.DeviceLogTask;
 
 import java.io.File;
 
-public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener
+public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewAdapter.RecyclerViewAdapterDelegate
 {
     public static final int REQUEST_PICK_IMAGE = 1;
 
@@ -58,7 +59,7 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
             recyclerViewLinearLayout.setVisibility(View.VISIBLE);
         }
 
-        recyclerViewAdapter = new RecyclerViewAdapter( this, EvidenceManager.sharedInstance().deviceLogRecords );
+        recyclerViewAdapter = new RecyclerViewAdapter( this, this, EvidenceManager.sharedInstance().deviceLogRecords );
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
@@ -115,5 +116,19 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
                 recyclerViewLinearLayout.setVisibility( View.GONE );
             }
         }
+    }
+
+    public void onListItemClicked(int position)
+    {
+        DeviceLogRecord deviceLogRecord = (DeviceLogRecord)EvidenceManager.sharedInstance().deviceLogRecords.get(position);
+
+        Intent intent = new Intent(this, DeviceLogDetailActivity.class);
+        intent.putExtra( "PathName", deviceLogRecord.file.getAbsolutePath());
+
+        startActivity(intent);
+
+        overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
+
+        recyclerViewAdapter.notifyItemChanged(position);
     }
 }

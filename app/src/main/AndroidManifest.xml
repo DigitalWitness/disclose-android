@@ -61,5 +61,15 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".activities.DeviceLogDetailActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".activities.MediaLogDetailActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
     </application>
 </manifest>

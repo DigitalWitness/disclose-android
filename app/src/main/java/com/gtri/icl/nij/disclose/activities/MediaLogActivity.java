@@ -2,6 +2,7 @@ package com.gtri.icl.nij.disclose.activities;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.gtri.icl.nij.disclose.Models.EvidenceRecord;
 import com.gtri.icl.nij.disclose.R;
 import com.gtri.icl.nij.disclose.RecyclerViewAdapter;
 import com.gtri.icl.nij.disclose.Managers.FileManager;
@@ -23,7 +25,7 @@ import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
 
 import java.io.File;
 
-public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener
+public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewAdapter.RecyclerViewAdapterDelegate
 {
     public static final int REQUEST_PICK_IMAGE = 1;
 
@@ -52,7 +54,7 @@ public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchH
             recyclerViewLinearLayout.setVisibility(View.VISIBLE);
         }
 
-        recyclerViewAdapter = new RecyclerViewAdapter( this, EvidenceManager.sharedInstance().mediaLogRecords );
+        recyclerViewAdapter = new RecyclerViewAdapter( this, this, EvidenceManager.sharedInstance().mediaLogRecords );
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
@@ -123,8 +125,25 @@ public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchH
             if (EvidenceManager.sharedInstance().mediaLogRecords.size() == 0)
             {
                 noDataRelativeLayout.setVisibility( View.VISIBLE );
+
+                // force re-bind of the list item since we disabled the list item onClick listener
+
                 recyclerViewLinearLayout.setVisibility( View.GONE );
             }
         }
+    }
+
+    public void onListItemClicked(int position)
+    {
+        MediaLogRecord mediaLogRecord = (MediaLogRecord)EvidenceManager.sharedInstance().mediaLogRecords.get(position);
+
+        Intent intent = new Intent(this, MediaLogDetailActivity.class);
+        intent.putExtra( "PathName", mediaLogRecord.file.getAbsolutePath());
+
+        startActivity(intent);
+
+        overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
+
+        recyclerViewAdapter.notifyItemChanged(position);
     }
 }

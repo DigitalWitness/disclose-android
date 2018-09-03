@@ -1,6 +1,8 @@
 package com.gtri.icl.nij.disclose;
 
+import android.media.Image;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.app.Activity;
 import android.view.ViewGroup;
@@ -18,16 +20,26 @@ import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
 import com.gtri.icl.nij.disclose.Models.EvidenceRecord;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>
 {
+    public interface RecyclerViewAdapterDelegate
+    {
+        void onListItemClicked(int position);
+    }
+
     Activity context;
+    RecyclerViewAdapterDelegate delegate;
     ArrayList<EvidenceRecord> evidenceRecords;
 
-    public RecyclerViewAdapter( Activity context, ArrayList<EvidenceRecord> evidenceRecords )
+    public RecyclerViewAdapter( Activity context, RecyclerViewAdapterDelegate delegate, ArrayList<EvidenceRecord> evidenceRecords )
     {
         this.context = context;
+        this.delegate = delegate;
         this.evidenceRecords = evidenceRecords;
     }
 
@@ -81,6 +93,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             recyclerViewHolder.titleTextView.setText( file.getAbsolutePath());
         }
+        else
+        {
+            recyclerViewHolder.imageView.setImageResource(R.drawable.ic_device_log);
+            recyclerViewHolder.titleTextView.setText( monthDayYearString( new Date()));
+        }
+
+        final int pos = position;
+
+        recyclerViewHolder.itemView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                v.setOnClickListener( null );
+                delegate.onListItemClicked( pos );
+            }
+        });
+    }
+
+    public String monthDayYearString( Date date )
+    {
+        String[] months = {"January","February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime( date );
+
+        return months[calendar.get( Calendar.MONTH )] + " " + calendar.get( Calendar.DAY_OF_MONTH ) + ", " + calendar.get( Calendar.YEAR );
     }
 
     @Override

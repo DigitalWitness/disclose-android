@@ -69,6 +69,19 @@
             android:text="Title"
             android:textColor="@color/black"
             android:textSize="18sp"/>
+
+        <RelativeLayout
+            android:layout_width="42dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_chevron_right"
+                />
+        </RelativeLayout>
     </LinearLayout>
 
 </FrameLayout>

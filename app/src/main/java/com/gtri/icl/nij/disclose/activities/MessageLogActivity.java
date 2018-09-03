@@ -2,6 +2,7 @@ package com.gtri.icl.nij.disclose.activities;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
@@ -23,7 +24,7 @@ import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
 
 import java.io.File;
 
-public class MessageLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener
+public class MessageLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewAdapter.RecyclerViewAdapterDelegate
 {
     public static final int REQUEST_PICK_IMAGE = 1;
 
@@ -52,7 +53,7 @@ public class MessageLogActivity extends BaseActivity implements RecyclerItemTouc
             recyclerViewLinearLayout.setVisibility(View.VISIBLE);
         }
 
-        recyclerViewAdapter = new RecyclerViewAdapter( this, EvidenceManager.sharedInstance().messageLogRecords );
+        recyclerViewAdapter = new RecyclerViewAdapter( this, this, EvidenceManager.sharedInstance().messageLogRecords );
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
@@ -126,5 +127,10 @@ public class MessageLogActivity extends BaseActivity implements RecyclerItemTouc
                 recyclerViewLinearLayout.setVisibility( View.GONE );
             }
         }
+    }
+
+    public void onListItemClicked(int position)
+    {
+        Log.d( "xxx", "onListItemClicked: " + position );
     }
 }
