@@ -3,7 +3,9 @@ package com.gtri.icl.nij.disclose.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -28,7 +30,12 @@ public class MediaLogDetailActivity extends BaseActivity
 
         String pathName = intent.getStringExtra( "PathName" );
 
-        Bitmap bitmap = BitmapFactory.decodeFile( pathName );
+        Bitmap bitmap = ThumbnailUtils.createVideoThumbnail( pathName, MediaStore.Video.Thumbnails.MICRO_KIND );
+
+        if (bitmap == null)
+        {
+            bitmap = BitmapFactory.decodeFile( pathName );
+        }
 
         ImageView imageView = (ImageView)findViewById(R.id.imageView);
         imageView.setImageBitmap( bitmap );
