@@ -15,6 +15,11 @@ public class EvidenceManager
 
     private EvidenceManager()
     {
+        clearAll();
+    }
+
+    public void clearAll()
+    {
         appLogRecords = new ArrayList<>();
         mediaLogRecords = new ArrayList<>();
         deviceLogRecords = new ArrayList<>();

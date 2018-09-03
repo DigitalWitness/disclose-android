@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         deviceLogTextView = (TextView)findViewById(R.id.deviceLogTextView);
         messageLogTextView = (TextView)findViewById(R.id.messageLogTextView);
 
-        // Social App Tap Handler
+        // App Log Tap Handler
 
         appLogLinearLayout = (LinearLayout)findViewById(R.id.socialLogLinearLayout);
 
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // Message Tap Handler
+        // Message Log Tap Handler
 
         messageLogLinearLayout = (LinearLayout)findViewById(R.id.messageLogLinearLayout);
 
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // Photo/Video Tap Handler
+        // Media Log Tap Handler
 
         mediaLogLinearLayout = (LinearLayout)findViewById(R.id.mediaLogLinearLayout);
 
@@ -143,6 +143,10 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 v.setEnabled( false );
+
+                EvidenceManager.sharedInstance().clearAll();
+
+                updateButtonTitles();
             }
         });
     }
@@ -189,6 +193,11 @@ public class MainActivity extends AppCompatActivity
         deviceLogLinearLayout.setEnabled(true);
         messageLogLinearLayout.setEnabled(true);
 
+        updateButtonTitles();
+    }
+
+    private void updateButtonTitles()
+    {
         appLogTextView.setText( "App Logs\n (" + EvidenceManager.sharedInstance().appLogRecords.size() + ")" );
         mediaLogTextView.setText( "Media Logs\n (" + EvidenceManager.sharedInstance().mediaLogRecords.size() + ")" );
         deviceLogTextView.setText( "Device Logs\n (" + EvidenceManager.sharedInstance().deviceLogRecords.size() + ")" );
