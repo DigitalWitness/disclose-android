@@ -1,5 +1,6 @@
 package com.gtri.icl.nij.disclose.API;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Submission

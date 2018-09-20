@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.gtri.icl.nij.disclose.API.Media;
 import com.gtri.icl.nij.disclose.R;
 import com.gtri.icl.nij.disclose.RecyclerViewAdapter;
 import com.gtri.icl.nij.disclose.Managers.FileManager;
@@ -93,19 +94,22 @@ public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchH
                 String mimeType = getContentResolver().getType(uri);
 
                 String extension = "";
+                Media.MediaType mediaType = Media.MediaType.PHOTO;
 
                 if (mimeType.startsWith("image"))
                 {
                     extension = ".jpg";
+                    mediaType = Media.MediaType.PHOTO;
                 }
                 else if (mimeType.startsWith("video"))
                 {
                     extension = ".mp4";
+                    mediaType = Media.MediaType.VIDEO;
                 }
 
                 File file = FileManager.copyFile( uri, extension, this );
 
-                EvidenceManager.sharedInstance().mediaLogRecords.add( new MediaLogRecord( file ));
+                EvidenceManager.sharedInstance().mediaLogRecords.add( new MediaLogRecord( file, mediaType ));
 
                 noDataRelativeLayout.setVisibility(View.GONE);
                 recyclerViewLinearLayout.setVisibility(View.VISIBLE);

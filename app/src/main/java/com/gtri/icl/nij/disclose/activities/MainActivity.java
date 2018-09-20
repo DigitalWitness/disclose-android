@@ -146,6 +146,8 @@ public class MainActivity extends AppCompatActivity
 
         submitButton = (Button)findViewById(R.id.submitButton);
 
+        // submit button is not enabled unless we have something to submit
+
         submitButton.setEnabled( false );
 
         submitButton.setOnClickListener(new View.OnClickListener()
@@ -153,21 +155,27 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                v.setEnabled( false );
+                submitButton.setEnabled( false );
+
+                // create a new evidence submission object
 
                 Submission submission = new Submission();
 
-                submission.content.media = new ArrayList<Media>();
+                // add photo/video content
 
                 for (EvidenceRecord evidenceRecord : EvidenceManager.sharedInstance().mediaLogRecords )
                 {
-                    submission.content.media.add( new Media(Media.MediaType.PHOTO, ((MediaLogRecord)evidenceRecord).file.getAbsolutePath()));
+                    submission.content.media.add( new Media( evidenceRecord.mediaType, ((MediaLogRecord)evidenceRecord).file.getAbsolutePath()));
                 }
+
+                // add device log content
 
                 for (EvidenceRecord evidenceRecord : EvidenceManager.sharedInstance().deviceLogRecords )
                 {
-                    submission.content.media.add( new Media(Media.MediaType.FILE, ((DeviceLogRecord)evidenceRecord).file.getAbsolutePath()));
+                    submission.content.media.add( new Media(evidenceRecord.mediaType, ((DeviceLogRecord)evidenceRecord).file.getAbsolutePath()));
                 }
+
+                // upload evidence
 
                 new UploadContentTask( MainActivity.this, submission, new APICompletionHandler()
                 {
@@ -176,7 +184,11 @@ public class MainActivity extends AppCompatActivity
                     {
                         if (response.success)
                         {
+                            // submission was successful, delete our copy of the evidence
+
                             EvidenceManager.sharedInstance().clearAll();
+
+                            // reset button titles to (0)
 
                             updateButtonTitles();
 
@@ -184,6 +196,10 @@ public class MainActivity extends AppCompatActivity
                         }
                         else
                         {
+                            // re-enable the 'submit' button
+
+                            submitButton.setEnabled( true );
+
                             Toast.makeText( MainActivity.this, response.error, Toast.LENGTH_LONG).show();
                         }
                     }

@@ -1,5 +1,9 @@
 package com.gtri.icl.nij.disclose.Models;
 
+import com.gtri.icl.nij.disclose.API.Media;
+
+import java.io.File;
+
 public class EvidenceRecord
 {
     public enum EvidenceType
@@ -10,5 +14,7 @@ public class EvidenceRecord
         MESSAGE_LOG
     }
 
+    public File file;
     public EvidenceType evidenceType;
+    public Media.MediaType mediaType;
 }

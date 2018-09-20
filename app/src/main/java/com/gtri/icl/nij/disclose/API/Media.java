@@ -6,7 +6,7 @@ public class Media
     {
         PHOTO,
         VIDEO,
-        FILE
+        SYSLOG
     }
 
     public String filePath;

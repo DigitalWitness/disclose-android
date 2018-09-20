@@ -4,8 +4,6 @@ import java.io.File;
 
 public class AppLogRecord extends EvidenceRecord
 {
-    public File file;
-
     public AppLogRecord(File file )
     {
         this.file = file;
