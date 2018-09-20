@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -18,6 +19,10 @@ import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.gtri.icl.nij.disclose.R;
+import com.gtri.icl.nij.disclose.API.APIResponse;
+import com.gtri.icl.nij.disclose.Models.Submission;
+import com.gtri.icl.nij.disclose.API.UploadContentAPI;
+import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
 
 public class MainActivity extends AppCompatActivity
@@ -144,9 +149,32 @@ public class MainActivity extends AppCompatActivity
             {
                 v.setEnabled( false );
 
-                EvidenceManager.sharedInstance().clearAll();
+                Submission submission = new Submission();
+                submission.filePath = ((MediaLogRecord)EvidenceManager.sharedInstance().mediaLogRecords.get(0)).file.getAbsolutePath();
 
-                updateButtonTitles();
+                new UploadContentAPI()
+                        .setContext( MainActivity.this )
+                        .setSubmission( submission )
+                        .setCompletionHandler( new UploadContentAPI.CompletionHandler()
+                        {
+                            @Override
+                            public void didComplete( APIResponse response )
+                            {
+                                if (response.success)
+                                {
+                                    EvidenceManager.sharedInstance().clearAll();
+
+                                    updateButtonTitles();
+
+                                    Toast.makeText( MainActivity.this, "Upload Success.", Toast.LENGTH_LONG).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText( MainActivity.this, response.error, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        })
+                        .doExecute();
             }
         });
     }
