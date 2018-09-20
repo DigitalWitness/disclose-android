@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 
 public class APIManager
 {
-    private static final String kBaseUrl = "http://nij-disclose-stsd.gtri.gatech.edu/api";
+    public static final String kBaseUrl = "http://nij-disclose-stsd.gtri.gatech.edu/api";
 
     public static APIResponse postRequest( String endPoint, JSONObject httpBody )
     {

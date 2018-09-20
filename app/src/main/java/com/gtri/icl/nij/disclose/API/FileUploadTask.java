@@ -13,15 +13,17 @@ import com.android.volley.request.SimpleMultiPartRequest;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-//
+import java.net.URL;
+
+//------------------------------------------------------------------------------
 // this class is the multi part request companion to the UploadContentTask
 // and is responsible for uploading image/video/file content ~after~ the
 // successful upload of the json meta data is uploaded first.
-//
+//------------------------------------------------------------------------------
 
 public class FileUploadTask extends AsyncTask<String, Void, String>
 {
-    public static final String kSubmissionUrl = "http://nij-disclose-stsd.gtri.gatech.edu/api/files";
+    public static final String kEndPoint = "/files";
 
     private Submission submission;
     private RequestQueue requestQueue;
@@ -53,7 +55,9 @@ public class FileUploadTask extends AsyncTask<String, Void, String>
 
     private SimpleMultiPartRequest createSimpleMultiPartRequest()
     {
-        SimpleMultiPartRequest simpleMultiPartRequest = new SimpleMultiPartRequest( Request.Method.POST, kSubmissionUrl,
+        String url = APIManager.kBaseUrl + kEndPoint;
+
+        SimpleMultiPartRequest simpleMultiPartRequest = new SimpleMultiPartRequest( Request.Method.POST, url,
 
                 new Response.Listener<String>()
                 {

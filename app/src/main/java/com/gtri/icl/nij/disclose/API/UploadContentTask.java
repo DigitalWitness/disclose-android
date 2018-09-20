@@ -8,20 +8,22 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+//------------------------------------------------------------------------------
 // Usage: (executes in background...)
 //
-// new UploadContentTask( this, submission, new UploadContentAPI.CompletionHandler()
+// new UploadContentTask( this, submission, new APICompletionHandler()
 // {
 //      @Override
 //      public void didComplete( APIResponse response )
 //      {
 //          // executes in foreground...
 //      }
-// }).doExecute();
+// }).execute();
+//------------------------------------------------------------------------------
 
 public class UploadContentTask extends AsyncTask<String, Void, APIResponse>
 {
-    private static final String endPoint = "/submission";
+    private static final String kEndPoint = "/submission";
 
     private Activity context;
     private Submission submission;
@@ -45,7 +47,7 @@ public class UploadContentTask extends AsyncTask<String, Void, APIResponse>
 
             Log.d( "xxx", jsonObject.toString());
 
-            return APIManager.postRequest( endPoint, jsonObject );
+            return APIManager.postRequest( kEndPoint, jsonObject );
         }
         catch (Exception e)
         {
