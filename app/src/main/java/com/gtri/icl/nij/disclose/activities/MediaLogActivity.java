@@ -80,6 +80,19 @@ public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchH
                 startActivityForResult(Intent.createChooser(intent, "Select Media"), REQUEST_PICK_IMAGE);
             }
         });
+
+        Button backButton = (Button)findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+
+                overridePendingTransition( R.animator.slide_from_left, R.animator.slide_to_right );
+            }
+        });
     }
 
     @Override

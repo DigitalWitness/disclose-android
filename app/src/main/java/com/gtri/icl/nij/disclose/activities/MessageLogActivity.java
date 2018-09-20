@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +17,6 @@ import com.gtri.icl.nij.disclose.R;
 import com.gtri.icl.nij.disclose.RecyclerViewAdapter;
 import com.gtri.icl.nij.disclose.RecyclerItemTouchHelper;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
-
-import java.io.File;
 
 public class MessageLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewAdapter.RecyclerViewAdapterDelegate
 {
@@ -59,6 +58,19 @@ public class MessageLogActivity extends BaseActivity implements RecyclerItemTouc
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+
+        Button backButton = (Button)findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+
+                overridePendingTransition( R.animator.slide_from_left, R.animator.slide_to_right );
+            }
+        });
     }
 
     @Override

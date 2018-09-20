@@ -93,6 +93,19 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
                 }).doExecute();
             }
         });
+
+        Button backButton = (Button)findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+
+                overridePendingTransition( R.animator.slide_from_left, R.animator.slide_to_right );
+            }
+        });
     }
 
     @Override
