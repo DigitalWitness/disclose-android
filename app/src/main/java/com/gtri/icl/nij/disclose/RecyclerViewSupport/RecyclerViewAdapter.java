@@ -1,4 +1,4 @@
-package com.gtri.icl.nij.disclose;
+package com.gtri.icl.nij.disclose.RecyclerViewSupport;
 
 import android.net.Uri;
 import android.view.View;
@@ -14,6 +14,7 @@ import android.media.ThumbnailUtils;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.RecyclerView;
 
+import com.gtri.icl.nij.disclose.R;
 import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
 import com.gtri.icl.nij.disclose.Models.EvidenceRecord;
 

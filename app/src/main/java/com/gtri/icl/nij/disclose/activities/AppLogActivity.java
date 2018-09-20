@@ -3,8 +3,8 @@ package com.gtri.icl.nij.disclose.activities;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +14,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.gtri.icl.nij.disclose.R;
-import com.gtri.icl.nij.disclose.RecyclerViewAdapter;
-import com.gtri.icl.nij.disclose.RecyclerItemTouchHelper;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
+import com.gtri.icl.nij.disclose.RecyclerViewSupport.RecyclerViewAdapter;
+import com.gtri.icl.nij.disclose.RecyclerViewSupport.RecyclerItemTouchHelper;
 
 public class AppLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewAdapter.RecyclerViewAdapterDelegate
 {

@@ -1,4 +1,4 @@
-package com.gtri.icl.nij.disclose;
+package com.gtri.icl.nij.disclose.RecyclerViewSupport;
 
 import android.view.View;
 import android.graphics.Canvas;

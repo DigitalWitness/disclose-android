@@ -14,13 +14,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.gtri.icl.nij.disclose.API.Media;
 import com.gtri.icl.nij.disclose.R;
-import com.gtri.icl.nij.disclose.RecyclerViewAdapter;
+import com.gtri.icl.nij.disclose.API.Media;
 import com.gtri.icl.nij.disclose.Managers.FileManager;
 import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
-import com.gtri.icl.nij.disclose.RecyclerItemTouchHelper;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
+import com.gtri.icl.nij.disclose.RecyclerViewSupport.RecyclerViewAdapter;
+import com.gtri.icl.nij.disclose.RecyclerViewSupport.RecyclerItemTouchHelper;
 
 import java.io.File;
 

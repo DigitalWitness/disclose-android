@@ -1,11 +1,10 @@
-package com.gtri.icl.nij.disclose.Tasks;
+package com.gtri.icl.nij.disclose.AsyncTasks;
 
 import android.util.Log;
 import android.os.AsyncTask;
 import android.content.Context;
 
 import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
-import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
 
 import java.io.File;
 import java.util.Date;

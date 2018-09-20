@@ -15,11 +15,11 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.gtri.icl.nij.disclose.R;
-import com.gtri.icl.nij.disclose.Tasks.DeviceLogTask;
-import com.gtri.icl.nij.disclose.RecyclerViewAdapter;
 import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
-import com.gtri.icl.nij.disclose.RecyclerItemTouchHelper;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
+import com.gtri.icl.nij.disclose.AsyncTasks.DeviceLogTask;
+import com.gtri.icl.nij.disclose.RecyclerViewSupport.RecyclerViewAdapter;
+import com.gtri.icl.nij.disclose.RecyclerViewSupport.RecyclerItemTouchHelper;
 
 public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewAdapter.RecyclerViewAdapterDelegate
 {
