@@ -27,23 +27,10 @@ public class DeviceLogTask extends AsyncTask<String, Void, DeviceLogRecord>
     private Context context;
     private CompletionHandler completionHandler;
 
-    public DeviceLogTask(Context context)
+    public DeviceLogTask(Context context, CompletionHandler completionHandler)
     {
         this.context = context;
-    }
-
-    public DeviceLogTask setCompletionHandler( CompletionHandler completionHandler )
-    {
         this.completionHandler = completionHandler;
-
-        return this;
-    }
-
-    public DeviceLogTask doExecute()
-    {
-        execute();  // triggers doInBackground...
-
-        return this;
     }
 
     protected DeviceLogRecord doInBackground(final String... args)

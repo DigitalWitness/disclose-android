@@ -2,6 +2,7 @@ package com.gtri.icl.nij.disclose.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.WindowManager;
@@ -71,26 +72,26 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
             {
                 addButton.setVisibility(View.GONE);
 
-                DeviceLogTask deviceLogTask = new DeviceLogTask( DeviceLogActivity.this );
-
-                deviceLogTask.setCompletionHandler( new DeviceLogTask.CompletionHandler()
+                new DeviceLogTask( DeviceLogActivity.this, new DeviceLogTask.CompletionHandler()
                 {
                     @Override
-                    public void didComplete(DeviceLogRecord deviceLogRecord)
+                    public void didComplete( DeviceLogRecord deviceLogRecord )
                     {
                         if (deviceLogRecord != null)
                         {
-                            noDataRelativeLayout.setVisibility(View.GONE);
-                            recyclerViewLinearLayout.setVisibility(View.VISIBLE);
+                            noDataRelativeLayout.setVisibility( View.GONE );
+                            recyclerViewLinearLayout.setVisibility( View.VISIBLE );
 
                             EvidenceManager.sharedInstance().deviceLogRecords.add( deviceLogRecord );
                         }
                         else
                         {
-                            addButton.setVisibility(View.VISIBLE);
+                            Toast.makeText( DeviceLogActivity.this, "Device Log Creation Failed.", Toast.LENGTH_LONG).show();
+
+                            addButton.setVisibility( View.VISIBLE );
                         }
                     }
-                }).doExecute();
+                }).execute();
             }
         });
 
