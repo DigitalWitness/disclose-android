@@ -1,54 +1,37 @@
 package com.gtri.icl.nij.disclose.API;
 
+import android.util.Log;
 import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
-import com.gtri.icl.nij.disclose.Models.Submission;
 
 import org.json.JSONObject;
 
-public class UploadContentAPI extends AsyncTask<String, Void, APIResponse>
-{
-    private final String endPoint = "/submission";
+// Usage: (executes in background...)
+//
+// new UploadContentTask( this, submission, new UploadContentAPI.CompletionHandler()
+// {
+//      @Override
+//      public void didComplete( APIResponse response )
+//      {
+//          // executes in foreground...
+//      }
+// }).doExecute();
 
-    public interface CompletionHandler
-    {
-        void didComplete( APIResponse apiResponse );
-    }
+public class UploadContentTask extends AsyncTask<String, Void, APIResponse>
+{
+    private static final String endPoint = "/submission";
 
     private Activity context;
+    private Submission submission;
+    private APICompletionHandler completionHandler;
 
-    public UploadContentAPI setContext( Activity context )
+    public UploadContentTask( Activity context, Submission submission, APICompletionHandler completionHandler )
     {
         this.context = context;
-
-        return this;
-    }
-
-    private Submission submission;
-
-    public UploadContentAPI setSubmission( Submission submission )
-    {
         this.submission = submission;
-
-        return this;
-    }
-
-    private CompletionHandler completionHandler;
-
-    public UploadContentAPI setCompletionHandler( CompletionHandler completionHandler )
-    {
         this.completionHandler = completionHandler;
-
-        return this;
-    }
-
-    public UploadContentAPI doExecute()
-    {
-        execute();  // triggers doInBackground...
-
-        return this;
     }
 
     @Override
@@ -59,6 +42,8 @@ public class UploadContentAPI extends AsyncTask<String, Void, APIResponse>
             Gson gson = new Gson();
 
             JSONObject jsonObject = new JSONObject( gson.toJson( submission ));
+
+            Log.d( "xxx", jsonObject.toString());
 
             return APIManager.postRequest( endPoint, jsonObject );
         }
@@ -72,6 +57,8 @@ public class UploadContentAPI extends AsyncTask<String, Void, APIResponse>
     @Override
     protected void onPostExecute( APIResponse apiResponse )
     {
+        // executes in foreground...
+
         if (apiResponse.success)
         {
             new FileUploadTask( context, submission, completionHandler ).execute();

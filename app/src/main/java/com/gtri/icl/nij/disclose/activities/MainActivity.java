@@ -19,11 +19,17 @@ import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.gtri.icl.nij.disclose.R;
+import com.gtri.icl.nij.disclose.API.Media;
+import com.gtri.icl.nij.disclose.API.Submission;
 import com.gtri.icl.nij.disclose.API.APIResponse;
-import com.gtri.icl.nij.disclose.Models.Submission;
-import com.gtri.icl.nij.disclose.API.UploadContentAPI;
+import com.gtri.icl.nij.disclose.API.UploadContentTask;
+import com.gtri.icl.nij.disclose.Models.EvidenceRecord;
 import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
+import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
+import com.gtri.icl.nij.disclose.API.APICompletionHandler;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -150,31 +156,38 @@ public class MainActivity extends AppCompatActivity
                 v.setEnabled( false );
 
                 Submission submission = new Submission();
-                submission.filePath = ((MediaLogRecord)EvidenceManager.sharedInstance().mediaLogRecords.get(0)).file.getAbsolutePath();
 
-                new UploadContentAPI()
-                        .setContext( MainActivity.this )
-                        .setSubmission( submission )
-                        .setCompletionHandler( new UploadContentAPI.CompletionHandler()
+                submission.content.media = new ArrayList<Media>();
+
+                for (EvidenceRecord evidenceRecord : EvidenceManager.sharedInstance().mediaLogRecords )
+                {
+                    submission.content.media.add( new Media(Media.MediaType.PHOTO, ((MediaLogRecord)evidenceRecord).file.getAbsolutePath()));
+                }
+
+                for (EvidenceRecord evidenceRecord : EvidenceManager.sharedInstance().deviceLogRecords )
+                {
+                    submission.content.media.add( new Media(Media.MediaType.FILE, ((DeviceLogRecord)evidenceRecord).file.getAbsolutePath()));
+                }
+
+                new UploadContentTask( MainActivity.this, submission, new APICompletionHandler()
+                {
+                    @Override
+                    public void didComplete( APIResponse response )
+                    {
+                        if (response.success)
                         {
-                            @Override
-                            public void didComplete( APIResponse response )
-                            {
-                                if (response.success)
-                                {
-                                    EvidenceManager.sharedInstance().clearAll();
+                            EvidenceManager.sharedInstance().clearAll();
 
-                                    updateButtonTitles();
+                            updateButtonTitles();
 
-                                    Toast.makeText( MainActivity.this, "Upload Success.", Toast.LENGTH_LONG).show();
-                                }
-                                else
-                                {
-                                    Toast.makeText( MainActivity.this, response.error, Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        })
-                        .doExecute();
+                            Toast.makeText( MainActivity.this, "Upload Success.", Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            Toast.makeText( MainActivity.this, response.error, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }).execute();
             }
         });
     }

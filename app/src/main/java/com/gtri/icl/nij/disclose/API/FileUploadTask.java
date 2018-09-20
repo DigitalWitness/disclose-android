@@ -8,46 +8,53 @@ import com.android.volley.Response;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.android.volley.error.VolleyError;
-import com.gtri.icl.nij.disclose.Models.Submission;
 import com.android.volley.request.SimpleMultiPartRequest;
 
 import org.json.JSONObject;
 import org.json.JSONException;
 
+//
+// this class is the multi part request companion to the UploadContentTask
+// and is responsible for uploading image/video/file content ~after~ the
+// successful upload of the json meta data is uploaded first.
+//
+
 public class FileUploadTask extends AsyncTask<String, Void, String>
 {
-    public static final String FILES_SUBMISSION_URL = "http://nij-disclose-stsd.gtri.gatech.edu/api/files";
+    public static final String kSubmissionUrl = "http://nij-disclose-stsd.gtri.gatech.edu/api/files";
 
-    private String filePath;
-    private String submissionId;
-    public RequestQueue mRequestQueue;
-    private UploadContentAPI.CompletionHandler completionHandler;
+    private Submission submission;
+    private RequestQueue requestQueue;
+    private APICompletionHandler completionHandler;
 
-    public FileUploadTask(Activity activity, Submission submission, UploadContentAPI.CompletionHandler completionHandler)
+    public FileUploadTask(Activity activity, Submission submission, APICompletionHandler completionHandler)
     {
-        this.filePath = submission.filePath;
+        this.submission = submission;
         this.completionHandler = completionHandler;
-        this.submissionId = submission.submission_id;
-        this.mRequestQueue = Volley.newRequestQueue(activity);
+        this.requestQueue = Volley.newRequestQueue(activity);
     }
 
     @Override
     protected String doInBackground(String... params)
     {
-        SimpleMultiPartRequest smr = buildSMR();
+        for (Media media : submission.content.media)
+        {
+            SimpleMultiPartRequest simpleMultiPartRequest = createSimpleMultiPartRequest();
 
-        smr.addStringParam("submission_id", submissionId);
-        smr.addStringParam("submissionType", "Photo/Video");
-        smr.addFile("files", filePath);
+            simpleMultiPartRequest.addFile("files", media.filePath );
+            simpleMultiPartRequest.addStringParam("submissionType", "Photo/Video" );
+            simpleMultiPartRequest.addStringParam("submission_id", submission.submission_id );
 
-        mRequestQueue.add( smr );
+            requestQueue.add( simpleMultiPartRequest );
+        }
 
         return null;
     }
 
-    private SimpleMultiPartRequest buildSMR()
+    private SimpleMultiPartRequest createSimpleMultiPartRequest()
     {
-        SimpleMultiPartRequest smr = new SimpleMultiPartRequest( Request.Method.POST, FILES_SUBMISSION_URL,
+        SimpleMultiPartRequest simpleMultiPartRequest = new SimpleMultiPartRequest( Request.Method.POST, kSubmissionUrl,
+
                 new Response.Listener<String>()
                 {
                     @Override
@@ -60,7 +67,7 @@ public class FileUploadTask extends AsyncTask<String, Void, String>
 
                             if (message.contains( "success" ))
                             {
-                                completionHandler.didComplete( new APIResponse( true, "", jsonObject ));
+                                completionHandler.didComplete( new APIResponse( true, null, jsonObject ));
                             }
                             else
                             {
@@ -74,6 +81,7 @@ public class FileUploadTask extends AsyncTask<String, Void, String>
                         }
                     }
                 },
+
                 new Response.ErrorListener()
                 {
                     @Override
@@ -84,6 +92,6 @@ public class FileUploadTask extends AsyncTask<String, Void, String>
                     }
                 });
 
-        return smr;
+        return simpleMultiPartRequest;
     }
 }
