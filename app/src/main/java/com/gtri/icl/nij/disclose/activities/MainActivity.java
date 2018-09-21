@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity
 
         getSupportActionBar().setCustomView(textView, params);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().hide();
 
         requestAllPermissions();
 
@@ -296,5 +297,19 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("default", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString( "email-address", "" );
+        editor.putString( "password", "" );
+
+        editor.commit();
+
+        super.onBackPressed();
     }
 }

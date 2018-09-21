@@ -31,7 +31,8 @@
             android:layout_below="@+id/imageView"
             android:text="DISCLOSE"
             android:textColor="@color/black"
-            android:textSize="40sp"/>
+            android:textStyle="bold"
+            android:textSize="30sp"/>
     </RelativeLayout>
 
     <TextView
@@ -53,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@android:drawable/dialog_holo_light_frame"
             android:orientation="horizontal">
@@ -78,7 +79,7 @@
             android:id="@+id/deviceLogLinearLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@android:drawable/dialog_holo_light_frame"
@@ -112,7 +113,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@android:drawable/dialog_holo_light_frame"
             android:orientation="horizontal">
@@ -137,7 +138,7 @@
             android:id="@+id/mediaLogLinearLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@android:drawable/dialog_holo_light_frame"

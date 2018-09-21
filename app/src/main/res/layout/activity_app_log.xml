@@ -5,10 +5,33 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <ImageView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="145dp"
-        android:background="@drawable/header_child"/>
+        android:layout_height="145dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="145dp"
+            android:background="@drawable/header_main"/>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/disclose_black_icon"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/imageView"
+            android:gravity="center_horizontal"
+            android:text="DISCLOSE"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/noDataRelativeLayout"

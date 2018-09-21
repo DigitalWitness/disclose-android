@@ -36,6 +36,8 @@ public class MessageLogActivity extends BaseActivity implements RecyclerItemTouc
 
         setContentView(R.layout.activity_message_log);
 
+        getSupportActionBar().hide();
+
         setCustomTitle("");
 
         noDataRelativeLayout = (RelativeLayout)findViewById(R.id.noDataRelativeLayout);

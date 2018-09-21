@@ -44,6 +44,8 @@
             android:paddingRight="10dp"
             android:inputType="textPassword"
             android:textColorHint="#876015"
+            android:textSize="22sp"
+            android:textColor="@color/yellow"
             android:backgroundTint="#876015"
             android:hint="Password"/>
 
@@ -59,6 +61,8 @@
             android:paddingRight="10dp"
             android:inputType="textEmailAddress"
             android:textColorHint="#876015"
+            android:textSize="22sp"
+            android:textColor="@color/yellow"
             android:backgroundTint="#876015"
             android:hint="Email Address"/>
 
@@ -69,7 +73,7 @@
             android:layout_above="@+id/emailEditText"
             android:gravity="center"
             android:text="Sign In"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textColor="@color/yellow"/>
 
         <TextView
@@ -90,7 +94,7 @@
             android:layout_below="@+id/orTextView"
             android:gravity="center"
             android:text="@string/sign_up"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textColor="@color/yellow"/>
 
         <TextView
@@ -101,7 +105,7 @@
             android:layout_marginBottom="20dp"
             android:gravity="center"
             android:text="@string/forgot_password"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textColor="@color/yellow"/>
 
     </RelativeLayout>

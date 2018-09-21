@@ -42,6 +42,8 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
 
         setContentView(R.layout.activity_device_log);
 
+        getSupportActionBar().hide();
+
         addButton = (Button)findViewById(R.id.addButton);
         noDataRelativeLayout = (RelativeLayout)findViewById(R.id.noDataRelativeLayout);
         recyclerViewLinearLayout = (LinearLayout)findViewById(R.id.recyclerViewLinearLayout);
