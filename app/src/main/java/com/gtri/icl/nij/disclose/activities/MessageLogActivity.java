@@ -34,7 +34,7 @@ public class MessageLogActivity extends BaseActivity implements RecyclerItemTouc
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_device_log);
+        setContentView(R.layout.activity_message_log);
 
         setCustomTitle("");
 

@@ -18,12 +18,12 @@
         android:layout_marginBottom="85dp">
 
         <ImageView
-            android:layout_width="34dp"
-            android:layout_height="30dp"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
             android:layout_above="@+id/mediaTextView"
             android:layout_marginBottom="10dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/camera_icon"/>
+            android:background="@drawable/messages_icon"/>
 
         <TextView
             android:id="@+id/mediaTextView"
