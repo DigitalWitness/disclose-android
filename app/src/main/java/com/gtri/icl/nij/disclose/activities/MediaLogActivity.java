@@ -154,10 +154,19 @@ public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchH
     {
         MediaLogRecord mediaLogRecord = (MediaLogRecord)EvidenceManager.sharedInstance().mediaLogRecords.get(position);
 
-        Intent intent = new Intent(this, MediaLogDetailActivity.class);
-        intent.putExtra( "PathName", mediaLogRecord.file.getAbsolutePath());
+        if (mediaLogRecord.mediaType == Media.MediaType.PHOTO)
+        {
+            Intent intent = new Intent(this, MediaLogDetailActivity.class);
+            intent.putExtra( "PathName", mediaLogRecord.file.getAbsolutePath());
 
-        startActivity(intent);
+            startActivity(intent);
+        }
+        else
+        {
+            Intent intent = new Intent( MediaLogActivity.this, VideoLogDetailActivity.class );
+            intent.putExtra( "fileName", "file://" + mediaLogRecord.file.getAbsolutePath());
+            startActivity(intent);
+        }
 
         overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
 
