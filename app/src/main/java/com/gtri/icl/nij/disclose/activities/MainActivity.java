@@ -1,8 +1,10 @@
 package com.gtri.icl.nij.disclose.activities;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
@@ -302,14 +304,35 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        SharedPreferences sharedPreferences = getSharedPreferences("default", 0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        AlertDialog.Builder builder;
 
-        editor.putString( "email-address", "" );
-        editor.putString( "password", "" );
+        builder = new AlertDialog.Builder(MainActivity.this);
 
-        editor.commit();
+        builder.setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        SharedPreferences sharedPreferences = getSharedPreferences("default", 0);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        super.onBackPressed();
+                        editor.putString( "email-address", "" );
+                        editor.putString( "password", "" );
+
+                        editor.commit();
+
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }
