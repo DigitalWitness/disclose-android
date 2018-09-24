@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
             <intent-filter>
@@ -32,47 +32,47 @@
         </activity>
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".Activities.MainActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name=".Activities.SignUpActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".activities.AppLogActivity"
+            android:name=".Activities.AppLogActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".activities.DeviceLogActivity"
+            android:name=".Activities.DeviceLogActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".activities.MessageLogActivity"
+            android:name=".Activities.MessageLogActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".activities.MediaLogActivity"
+            android:name=".Activities.MediaLogActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".activities.DeviceLogDetailActivity"
+            android:name=".Activities.DeviceLogDetailActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".activities.MediaLogDetailActivity"
+            android:name=".Activities.MediaLogDetailActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".activities.VideoLogDetailActivity"
+            android:name=".Activities.VideoLogDetailActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"/>
 

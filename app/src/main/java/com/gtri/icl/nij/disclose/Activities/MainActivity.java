@@ -1,12 +1,12 @@
-package com.gtri.icl.nij.disclose.activities;
+package com.gtri.icl.nij.disclose.Activities;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.util.Base64;
 import android.widget.Toast;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -15,9 +15,11 @@ import android.content.Intent;
 import android.widget.TextView;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBar;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.gtri.icl.nij.disclose.R;
@@ -30,8 +32,7 @@ import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
 import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
 import com.gtri.icl.nij.disclose.API.APICompletionHandler;
-
-import java.util.ArrayList;
+import com.gtri.icl.nij.disclose.Managers.SignatureManager;
 
 public class MainActivity extends AppCompatActivity
 {

@@ -1,10 +1,12 @@
 package com.gtri.icl.nij.disclose.API;
 
+import android.util.Base64;
 import android.util.Log;
 import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
+import com.gtri.icl.nij.disclose.Managers.SignatureManager;
 
 import org.json.JSONObject;
 
@@ -41,6 +43,8 @@ public class UploadContentTask extends AsyncTask<String, Void, APIResponse>
     {
         try
         {
+            submission.signature = Base64.encodeToString( SignatureManager.createSignature( submission.content.media ), Base64.DEFAULT );
+
             Gson gson = new Gson();
 
             JSONObject jsonObject = new JSONObject( gson.toJson( submission ));

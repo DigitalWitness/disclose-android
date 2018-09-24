@@ -1,8 +1,8 @@
-package com.gtri.icl.nij.disclose.activities;
+package com.gtri.icl.nij.disclose.Activities;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.WindowManager;
@@ -15,17 +15,19 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.gtri.icl.nij.disclose.R;
-import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
+import com.gtri.icl.nij.disclose.API.Media;
+import com.gtri.icl.nij.disclose.Managers.FileManager;
+import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
-import com.gtri.icl.nij.disclose.AsyncTasks.DeviceLogTask;
 import com.gtri.icl.nij.disclose.RecyclerViewSupport.RecyclerViewAdapter;
 import com.gtri.icl.nij.disclose.RecyclerViewSupport.RecyclerItemTouchHelper;
 
-public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewAdapter.RecyclerViewAdapterDelegate
+import java.io.File;
+
+public class MediaLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewAdapter.RecyclerViewAdapterDelegate
 {
     public static final int REQUEST_PICK_IMAGE = 1;
 
-    private Button addButton;
     private RecyclerView recyclerView;
     private RelativeLayout noDataRelativeLayout;
     private LinearLayout recyclerViewLinearLayout;
@@ -38,24 +40,22 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setCustomTitle("");
-
-        setContentView(R.layout.activity_device_log);
+        setContentView(R.layout.activity_media_log);
 
         getSupportActionBar().hide();
 
-        addButton = (Button)findViewById(R.id.addButton);
+        setCustomTitle("");
+
         noDataRelativeLayout = (RelativeLayout)findViewById(R.id.noDataRelativeLayout);
         recyclerViewLinearLayout = (LinearLayout)findViewById(R.id.recyclerViewLinearLayout);
 
-        if (EvidenceManager.sharedInstance().deviceLogRecords.size() > 0)
+        if (EvidenceManager.sharedInstance().mediaLogRecords.size() > 0)
         {
-            addButton.setVisibility(View.GONE);
             noDataRelativeLayout.setVisibility(View.GONE);
             recyclerViewLinearLayout.setVisibility(View.VISIBLE);
         }
 
-        recyclerViewAdapter = new RecyclerViewAdapter( this, this, EvidenceManager.sharedInstance().deviceLogRecords );
+        recyclerViewAdapter = new RecyclerViewAdapter( this, this, EvidenceManager.sharedInstance().mediaLogRecords );
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
@@ -67,33 +67,19 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
+        Button addButton = (Button)findViewById(R.id.addButton);
+
         addButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                addButton.setVisibility(View.GONE);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/*", "video/*"});
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
+                intent.setType("*/*");
 
-                new DeviceLogTask( DeviceLogActivity.this, new DeviceLogTask.CompletionHandler()
-                {
-                    @Override
-                    public void didComplete( DeviceLogRecord deviceLogRecord )
-                    {
-                        if (deviceLogRecord != null)
-                        {
-                            noDataRelativeLayout.setVisibility( View.GONE );
-                            recyclerViewLinearLayout.setVisibility( View.VISIBLE );
-
-                            EvidenceManager.sharedInstance().deviceLogRecords.add( deviceLogRecord );
-                        }
-                        else
-                        {
-                            Toast.makeText( DeviceLogActivity.this, "Device Log Creation Failed.", Toast.LENGTH_LONG).show();
-
-                            addButton.setVisibility( View.VISIBLE );
-                        }
-                    }
-                }).execute();
+                startActivityForResult(Intent.createChooser(intent, "Select Media"), REQUEST_PICK_IMAGE);
             }
         });
 
@@ -112,16 +98,53 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_PICK_IMAGE)
+        {
+            Uri uri = data.getData();
+
+            if (uri != null)
+            {
+                String mimeType = getContentResolver().getType(uri);
+
+                String extension = "";
+                Media.MediaType mediaType = Media.MediaType.PHOTO;
+
+                if (mimeType.startsWith("image"))
+                {
+                    extension = ".jpg";
+                    mediaType = Media.MediaType.PHOTO;
+                }
+                else if (mimeType.startsWith("video"))
+                {
+                    extension = ".mp4";
+                    mediaType = Media.MediaType.VIDEO;
+                }
+
+                File file = FileManager.copyFile( uri, extension, this );
+
+                EvidenceManager.sharedInstance().mediaLogRecords.add( new MediaLogRecord( file, mediaType ));
+
+                noDataRelativeLayout.setVisibility(View.GONE);
+                recyclerViewLinearLayout.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position)
     {
         if (viewHolder instanceof RecyclerViewAdapter.RecyclerViewHolder)
         {
             recyclerViewAdapter.removeItem( viewHolder.getAdapterPosition());
 
-            if (EvidenceManager.sharedInstance().deviceLogRecords.size() == 0)
+            if (EvidenceManager.sharedInstance().mediaLogRecords.size() == 0)
             {
-                addButton.setVisibility(View.VISIBLE);
                 noDataRelativeLayout.setVisibility( View.VISIBLE );
+
+                // force re-bind of the list item since we disabled the list item onClick listener
+
                 recyclerViewLinearLayout.setVisibility( View.GONE );
             }
         }
@@ -129,12 +152,21 @@ public class DeviceLogActivity extends BaseActivity implements RecyclerItemTouch
 
     public void onListItemClicked(int position)
     {
-        DeviceLogRecord deviceLogRecord = (DeviceLogRecord)EvidenceManager.sharedInstance().deviceLogRecords.get(position);
+        MediaLogRecord mediaLogRecord = (MediaLogRecord)EvidenceManager.sharedInstance().mediaLogRecords.get(position);
 
-        Intent intent = new Intent(this, DeviceLogDetailActivity.class);
-        intent.putExtra( "PathName", deviceLogRecord.file.getAbsolutePath());
+        if (mediaLogRecord.mediaType == Media.MediaType.PHOTO)
+        {
+            Intent intent = new Intent(this, MediaLogDetailActivity.class);
+            intent.putExtra( "PathName", mediaLogRecord.file.getAbsolutePath());
 
-        startActivity(intent);
+            startActivity(intent);
+        }
+        else
+        {
+            Intent intent = new Intent( MediaLogActivity.this, VideoLogDetailActivity.class );
+            intent.putExtra( "fileName", "file://" + mediaLogRecord.file.getAbsolutePath());
+            startActivity(intent);
+        }
 
         overridePendingTransition( R.animator.slide_from_right, R.animator.slide_to_left );
 

@@ -1,4 +1,4 @@
-package com.gtri.icl.nij.disclose.activities;
+package com.gtri.icl.nij.disclose.Activities;
 
 import android.view.Gravity;
 import android.widget.TextView;

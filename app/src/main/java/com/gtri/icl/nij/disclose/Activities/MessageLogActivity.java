@@ -1,4 +1,4 @@
-package com.gtri.icl.nij.disclose.activities;
+package com.gtri.icl.nij.disclose.Activities;
 
 import android.util.Log;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
 import com.gtri.icl.nij.disclose.RecyclerViewSupport.RecyclerViewAdapter;
 import com.gtri.icl.nij.disclose.RecyclerViewSupport.RecyclerItemTouchHelper;
 
-public class AppLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewAdapter.RecyclerViewAdapterDelegate
+public class MessageLogActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, RecyclerViewAdapter.RecyclerViewAdapterDelegate
 {
     public static final int REQUEST_PICK_IMAGE = 1;
 
@@ -34,7 +34,7 @@ public class AppLogActivity extends BaseActivity implements RecyclerItemTouchHel
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_app_log);
+        setContentView(R.layout.activity_message_log);
 
         getSupportActionBar().hide();
 
@@ -43,13 +43,13 @@ public class AppLogActivity extends BaseActivity implements RecyclerItemTouchHel
         noDataRelativeLayout = (RelativeLayout)findViewById(R.id.noDataRelativeLayout);
         recyclerViewLinearLayout = (LinearLayout)findViewById(R.id.recyclerViewLinearLayout);
 
-        if (EvidenceManager.sharedInstance().appLogRecords.size() > 0)
+        if (EvidenceManager.sharedInstance().messageLogRecords.size() > 0)
         {
             noDataRelativeLayout.setVisibility(View.GONE);
             recyclerViewLinearLayout.setVisibility(View.VISIBLE);
         }
 
-        recyclerViewAdapter = new RecyclerViewAdapter( this, this, EvidenceManager.sharedInstance().appLogRecords );
+        recyclerViewAdapter = new RecyclerViewAdapter( this, this, EvidenceManager.sharedInstance().messageLogRecords );
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
@@ -82,7 +82,7 @@ public class AppLogActivity extends BaseActivity implements RecyclerItemTouchHel
         {
             recyclerViewAdapter.removeItem( viewHolder.getAdapterPosition());
 
-            if (EvidenceManager.sharedInstance().appLogRecords.size() == 0)
+            if (EvidenceManager.sharedInstance().messageLogRecords.size() == 0)
             {
                 noDataRelativeLayout.setVisibility( View.VISIBLE );
                 recyclerViewLinearLayout.setVisibility( View.GONE );
