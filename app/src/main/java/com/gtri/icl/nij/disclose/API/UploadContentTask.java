@@ -1,7 +1,7 @@
 package com.gtri.icl.nij.disclose.API;
 
-import android.util.Base64;
 import android.util.Log;
+import android.util.Base64;
 import android.app.Activity;
 import android.os.AsyncTask;
 

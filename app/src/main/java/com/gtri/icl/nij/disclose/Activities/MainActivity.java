@@ -3,10 +3,8 @@ package com.gtri.icl.nij.disclose.Activities;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.util.Base64;
 import android.widget.Toast;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -32,7 +30,6 @@ import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
 import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
 import com.gtri.icl.nij.disclose.API.APICompletionHandler;
-import com.gtri.icl.nij.disclose.Managers.SignatureManager;
 
 public class MainActivity extends AppCompatActivity
 {

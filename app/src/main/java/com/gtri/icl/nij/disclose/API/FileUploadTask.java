@@ -13,8 +13,6 @@ import com.android.volley.request.SimpleMultiPartRequest;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-import java.net.URL;
-
 //------------------------------------------------------------------------------
 // this class is the multi part request companion to the UploadContentTask
 // and is responsible for uploading image/video/file content ~after~ the
