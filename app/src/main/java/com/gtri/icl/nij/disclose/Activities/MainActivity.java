@@ -30,6 +30,7 @@ import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
 import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
 import com.gtri.icl.nij.disclose.Managers.EvidenceManager;
 import com.gtri.icl.nij.disclose.API.APICompletionHandler;
+import com.gtri.icl.nij.disclose.Fragments.ProgressDialogFragment;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -176,6 +177,10 @@ public class MainActivity extends AppCompatActivity
                     submission.content.media.add( new Media(evidenceRecord.mediaType, ((DeviceLogRecord)evidenceRecord).file.getAbsolutePath()));
                 }
 
+                final ProgressDialogFragment progressDialogFragment = new ProgressDialogFragment();
+                progressDialogFragment.setCancelable(false);
+                progressDialogFragment.show( getSupportFragmentManager(), null);
+
                 // upload evidence
 
                 new UploadContentTask( MainActivity.this, submission, new APICompletionHandler()
@@ -183,6 +188,8 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void didComplete( APIResponse response )
                     {
+                        progressDialogFragment.dismiss();
+
                         if (response.success)
                         {
                             // submission was successful, delete our copy of the evidence

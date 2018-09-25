@@ -4,8 +4,6 @@ import android.util.Log;
 import android.os.AsyncTask;
 import android.content.Context;
 
-import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
-
 import java.io.File;
 import java.util.Date;
 import java.util.Calendar;
@@ -15,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+
+import com.gtri.icl.nij.disclose.Models.DeviceLogRecord;
 
 public class DeviceLogTask extends AsyncTask<String, Void, DeviceLogRecord>
 {

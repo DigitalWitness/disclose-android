@@ -14,14 +14,14 @@ import android.media.ThumbnailUtils;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.RecyclerView;
 
-import com.gtri.icl.nij.disclose.R;
-import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
-import com.gtri.icl.nij.disclose.Models.EvidenceRecord;
-
 import java.io.File;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.ArrayList;
+
+import com.gtri.icl.nij.disclose.R;
+import com.gtri.icl.nij.disclose.Models.MediaLogRecord;
+import com.gtri.icl.nij.disclose.Models.EvidenceRecord;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>
 {

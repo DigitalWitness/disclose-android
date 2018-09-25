@@ -6,13 +6,13 @@ import android.widget.TextView;
 import android.view.WindowManager;
 import android.text.method.ScrollingMovementMethod;
 
-import com.gtri.icl.nij.disclose.R;
-
 import java.io.File;
 import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+
+import com.gtri.icl.nij.disclose.R;
 
 public class DeviceLogDetailActivity extends BaseActivity
 {
